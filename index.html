@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify</title>
+    <style>
+        :root {
+            --spotify-green: #1DB954;
+            --spotify-black: #191414;
+            --spotify-white: #FFFFFF;
+            --spotify-gray: #282828;
+        }
+
+        body {
+            font-family: 'Gotham', Arial, sans-serif;
+            background-color: var(--spotify-black);
+            color: var(--spotify-white);
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(45deg, var(--spotify-green), #1ed760);
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 48px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+
+        .music-visualizer {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(90deg, var(--spotify-green), var(--spotify-black));
+            margin: 30px 0;
+            animation: pulse 1.5s infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visualizer-bars {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 20px;
+            gap: 6px;
+        }
+
+        .bar {
+            width: 6px;
+            background: var(--spotify-white);
+            animation: barAnimation 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes barAnimation {
+            from { height: 20%; }
+            to { height: 100%; }
+        }
+
+        @keyframes pulse {
+            from { transform: scaleY(1); }
+            to { transform: scaleY(1.1); }
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .section {
+            background: var(--spotify-gray);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h2 {
+            color: var(--spotify-green);
+            margin-top: 0;
+            border-bottom: 3px solid var(--spotify-green);
+            padding-bottom: 15px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .section p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .genre-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+            border: 1px solid rgba(29, 185, 84, 0.1);
+        }
+
+        .genre-card:hover {
+            transform: translateY(-5px);
+            background: rgba(29, 185, 84, 0.1);
+            border-color: var(--spotify-green);
+            box-shadow: 0 8px 24px rgba(29, 185, 84, 0.2);
+        }
+
+        .genre-card h3 {
+            color: var(--spotify-green);
+            margin: 0 0 20px 0;
+            font-size: 28px;
+            font-weight: bold;
+            border-bottom: 2px solid var(--spotify-green);
+            padding-bottom: 10px;
+        }
+
+        .genre-card p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+        }
+
+        .genre-card button {
+            background-color: var(--spotify-green);
+            color: var(--spotify-white);
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .genre-card button:hover {
+            background-color: #1ed760;
+            transform: scale(1.05);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 30px 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--spotify-green);
+            border-radius: 50%;
+        }
+
+        .timeline-item h3 {
+            font-size: 24px;
+            color: var(--spotify-green);
+            margin-bottom: 10px;
+        }
+
+        .timeline-item p {
+            font-size: 20px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: var(--spotify-green);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            font-size: 18px;
+        }
+
+        select, button {
+            background-color: var(--spotify-green);
+            color: var(--spotify-white);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        select {
+            margin-right: 15px;
+        }
+
+        button:hover, select:hover {
+            background-color: #1ed760;
+            transform: scale(1.05);
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+
+        footer {
+            background-color: var(--spotify-gray);
+            color: var(--spotify-white);
+            padding: 30px;
+            text-align: center;
+            margin-top: 60px;
+            font-size: 18px;
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--spotify-gray);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .player-controls button {
+            background: none;
+            border: none;
+            color: var(--spotify-white);
+            font-size: 32px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .progress-bar {
+            width: 400px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .progress {
+            width: 30%;
+            height: 100%;
+            background: var(--spotify-green);
+            border-radius: 3px;
+        }
+
+        ul {
+            font-size: 20px;
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        .computer-button {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--spotify-green);
+            color: var(--spotify-white);
+            border: none;
+            padding: 20px;
+            font-size: 32px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .computer-button:hover {
+            transform: scale(1.1);
+            background: #1ed760;
+        }
+
+        .computer-button a {
+            color: var(--spotify-white);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Spotify - Explorando Música e Cultura</h1>
+    </header>
+
+    <div class="content">
+        <div class="music-visualizer">
+            <div class="visualizer-bars">
+                <div class="bar" style="animation-delay: 0.1s"></div>
+                <div class="bar" style="animation-delay: 0.2s"></div>
+                <div class="bar" style="animation-delay: 0.3s"></div>
+                <div class="bar" style="animation-delay: 0.4s"></div>
+                <div class="bar" style="animation-delay: 0.5s"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>História do Spotify</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>2006</h3>
+                    <p>Daniel Ek e Martin Lorentzon fundaram o Spotify em Estocolmo, Suécia</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>2008</h3>
+                    <p>Lançamento oficial do Spotify na Europa</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>2011</h3>
+                    <p>Expansão para os Estados Unidos</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>2015</h3>
+                    <p>Lançamento do Discover Weekly</p>
+                </div>
+            </div>
+            <p> O Spotify é uma plataforma onde é fácil encontrar a música ou podcast certo para cada momento – no seu telefone, seu computador, seu tablet e muito mais. Existem milhões de faixas e episódios no Spotify. Então, se você está ao volante, trabalhando, festejando ou relaxando, a música certa ou o podcast está sempre ao seu alcance. Escolha o que você quer ouvir ou deixe o Spotify surpreendê-lo. Você também pode navegar pelas coleções de amigos, artistas e celebridades, ou criar uma estação de rádio e apenas sentar.</p>
+        </div>
+
+        <div class="section">
+            <h2>Estilos Musicais</h2>
+            <div class="genre-grid">
+                <div class="genre-card">
+                    <h3>Pop</h3>
+                    <p>Música popular contemporânea com foco em melodias cativantes e produções sofisticadas. Artistas como Ariana Grande, Taylor Swift e Ed Sheeran dominam este gênero.</p>
+                    <button onclick="showGenreTracks('pop')">Explorar</button>
+                </div>
+                <div class="genre-card">
+                    <h3>Rock</h3>
+                    <p>Caracterizado por guitarras elétricas, batidas energéticas e letras expressivas. Bandas como Queen, Nirvana e Foo Fighters são ícones deste estilo.</p>
+                    <button onclick="showGenreTracks('rock')">Explorar</button>
+                </div>
+                <div class="genre-card">
+                    <h3>Jazz</h3>
+                    <p>Gênero musical improvisado com influência africana e europeia. Artistas como Miles Davis, John Coltrane e Louis Armstrong são lendas do jazz.</p>
+                    <button onclick="showGenreTracks('jazz')">Explorar</button>
+                </div>
+                <div class="genre-card">
+                    <h3>Hip-Hop</h3>
+                    <p>Combinação de rap e batidas eletrônicas com foco em rimas e ritmos. Artistas como Kendrick Lamar, Drake e Travis Scott são destaques atuais.</p>
+                    <button onclick="showGenreTracks('hiphop')">Explorar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Recursos da Plataforma</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Discover Weekly</h3>
+                    <p>Playlist personalizada semanal com novas músicas baseadas nos seus gostos. Uma nova playlist é gerada toda segunda-feira com 30 músicas que você provavelmente vai adorar.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Wrapped</h3>
+                    <p>Resumo anual de suas músicas mais ouvidas e artistas favoritos. Uma retrospectiva personalizada que mostra seus hábitos musicais do ano.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Podcasts</h3>
+                    <p>Conteúdo em áudio diversificado, incluindo notícias, entretenimento e educação. Milhares de podcasts para todos os interesses e gostos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Como Funciona o Algoritmo</h2>
+            <p>O Spotify utiliza uma combinação avançada de tecnologias para criar uma experiência personalizada:</p>
+            <ul>
+                <li>Aprendizado de máquina para análise de padrões musicais e preferências do usuário</li>
+                <li>Filtragem colaborativa baseada no comportamento dos usuários e suas interações</li>
+                <li>Análise de contexto e metadados das músicas para entender melhor o conteúdo</li>
+                <li>Feedback direto dos usuários através de curtidas, pular músicas e tempo de escuta</li>
+                <li>Análise de áudio para entender características musicais como ritmo, melodia e timbre</li>
+            </ul>
+        </div>
+    </div>
+
+    <a href="spotify.html" class="computer-button">
+        💻
+    </a>
+
+    <div class="music-player">
+        <div class="player-controls">
+            <button>⏮</button>
+            <button>▶</button>
+            <button>⏭</button>
+        </div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Spotify Music Exploration. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function showGenreTracks(genre) {
+            alert(`Mostrando músicas do gênero ${genre} (Esta é uma simulação interativa)`);
+        }
+
+        // Criar barras do visualizador dinamicamente
+        const visualizerBars = document.querySelector('.visualizer-bars');
+        for (let i = 0; i < 20; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.animationDelay = `${i * 0.1}s`;
+            visualizerBars.appendChild(bar);
+        }
+    </script>
+</body>
+</html>

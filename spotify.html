@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação Windows</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            transition: background 1s ease-in-out;
+        }
+        .icon {
+            width: 80px;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            position: absolute;
+            cursor: pointer;
+        }
+        .icon img {
+            width: 50px;
+            cursor: pointer;
+        }
+        .window {
+            position: absolute;
+            width: 800px; /* Aumentando a largura da janela */
+            height: 600px; /* Aumentando a altura da janela */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;
+            padding: 10px;
+        }
+        .header {
+            background: #0078D7;
+            color: white;
+            padding: 5px;
+            cursor: move;
+        }
+        iframe {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="icon" style="top: 50px; left: 50px;" onclick="openWindow('github')">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub">
+        <div>GitHub</div>
+    </div>
+    <div class="icon" style="top: 150px; left: 50px;" onclick="openWindow('instagram')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+        <div>Instagram</div>
+    </div>
+    <div class="icon" style="top: 250px; left: 50px;" onclick="openWindow('spotify')">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Trailer">
+        <div>Spotify</div>
+    </div>
+    
+    <div id="github" class="window" style="top: 100px; left: 200px;">
+        <div class="header">GitHub <span onclick="closeWindow('github')" style="float:right; cursor:pointer;">X</span></div>
+        <iframe src="https://github.com/aldirpedro" width="100%" height="90%"></iframe>
+    </div>
+    <div id="instagram" class="window" style="top: 150px; left: 250px;">
+        <div class="header">Instagram <span onclick="closeWindow('instagram')" style="float:right; cursor:pointer;">X</span></div>
+        <iframe src="https://www.instagram.com/aldir_pedro/" width="100%" height="90%"></iframe>
+    </div>
+    <div id="spotify" class="window" style="top: 200px; left: 300px;">
+        <div class="header">Spotify Trailer <span onclick="closeWindow('spotify')" style="float:right; cursor:pointer;">X</span></div>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/VtvfbGRDJbY" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        // Array de fundos
+        const backgrounds = [
+            "https://i.gifer.com/F1ga.gif",  // Fundo 1
+            "https://i.gifer.com/J6vi.gif",  // Fundo 2
+            "https://i.gifer.com/7rF7.gif"    // Fundo 3
+        ];
+
+        let currentBackgroundIndex = 0;
+
+        // Função para trocar o fundo
+        function changeBackground() {
+            document.body.style.backgroundImage = `url('${backgrounds[currentBackgroundIndex]}')`;
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center center";
+            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
+        }
+
+        // Trocar fundo a cada 3 minutos (180 segundos)
+        setInterval(changeBackground, 180000);
+
+        // Alterar o fundo ao carregar a página
+        changeBackground();
+
+        // Funções para abrir e fechar janelas
+        function openWindow(windowId) {
+            document.getElementById(windowId).style.display = 'block';
+        }
+
+        function closeWindow(windowId) {
+            document.getElementById(windowId).style.display = 'none';
+        }
+    </script>
+</body>
+</html>
