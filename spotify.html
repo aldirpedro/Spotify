@@ -10,72 +10,243 @@
             overflow: hidden;
             transition: background 1s ease-in-out;
         }
+        .icon-list {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1000;
+        }
         .icon {
             width: 80px;
             text-align: center;
             color: white;
             font-family: Arial, sans-serif;
-            position: absolute;
             cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .icon:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.1);
         }
         .icon img {
             width: 50px;
-            cursor: pointer;
+            height: 50px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        .icon:first-child {
+            background: rgba(29, 185, 84, 0.2);
+            border: 2px solid #1DB954;
+        }
+        .icon:first-child:hover {
+            background: rgba(29, 185, 84, 0.3);
+            transform: scale(1.15);
+        }
+        .icon:first-child img {
+            width: 60px;
+            height: 60px;
+        }
+        .icon:first-child div {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1DB954;
         }
         .window {
             position: absolute;
-            width: 800px; /* Aumentando a largura da janela */
-            height: 600px; /* Aumentando a altura da janela */
-            background: white;
+            width: 800px;
+            height: 600px;
+            background: #1e1e1e;
+            border: 1px solid #333;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: none;
             padding: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
         }
         .header {
-            background: #0078D7;
+            background: #2d2d2d;
             color: white;
-            padding: 5px;
-            cursor: move;
+            padding: 8px;
+            font-size: 14px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .close-button {
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+        .desktop-preview {
+            padding: 0;
+            text-align: center;
+            height: calc(100% - 40px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: #000;
+        }
+        .desktop-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0 0 8px 8px;
+        }
+        .app-icons {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        .app-icon:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .app-icon img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+        }
+        .app-icon span {
+            color: white;
+            font-size: 10px;
         }
         iframe {
+            width: 100%;
+            height: calc(100% - 40px);
             border: none;
+            border-radius: 0 0 8px 8px;
+        }
+        .content-frame {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100% - 40px);
+            padding: 20px;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #1DB954;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border: 2px solid #1DB954;
+        }
+        .link-button:hover {
+            background: transparent;
+            color: #1DB954;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <div class="icon" style="top: 50px; left: 50px;" onclick="openWindow('github')">
+    <div class="icon-list">
+        <div class="icon" onclick="openWindow('home')">
+            <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Home">
+            <div>Home</div>
+        </div>
+        <div class="icon" onclick="openWindow('github')">
         <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub">
         <div>GitHub</div>
     </div>
-    <div class="icon" style="top: 150px; left: 50px;" onclick="openWindow('instagram')">
+        <div class="icon" onclick="openWindow('instagram')">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
         <div>Instagram</div>
     </div>
-    <div class="icon" style="top: 250px; left: 50px;" onclick="openWindow('spotify')">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Trailer">
+        <div class="icon" onclick="openWindow('spotify')">
+            <img src="https://www.youtube.com/watch?v=VtvfbGRDJbY" alt="Spotify">
         <div>Spotify</div>
+        </div>
+        <div class="icon" onclick="openWindow('youtube')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube">
+            <div>YouTube</div>
+        </div>
+        <div class="icon" onclick="openWindow('linkedin')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+            <div>LinkedIn</div>
+        </div>
+    </div>
+
+    <div id="home" class="window">
+        <div class="header">
+            <span>Home</span>
+            <span class="close-button" onclick="closeWindow('home')">X</span>
+        </div>
+        <div class="desktop-preview">
+            <img src="https://s2-techtudo.glbimg.com/p7LEVxez4q_ObbQqVwfnoFL3eeg=/0x0:695x434/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2021/k/6/0ko4LtTlK9EOXhMpW9qw/2016-01-26-113.jpg" alt="Desktop Environment">
+        </div>
+    </div>
+
+    <div id="github" class="window">
+        <div class="header">
+            <span>GitHub</span>
+            <span class="close-button" onclick="closeWindow('github')">X</span>
+        </div>
+        <div class="content-frame">
+            <a href="https://github.com/aldirpedro" target="_blank" class="link-button">Acessar GitHub</a>
+        </div>
     </div>
     
-    <div id="github" class="window" style="top: 100px; left: 200px;">
-        <div class="header">GitHub <span onclick="closeWindow('github')" style="float:right; cursor:pointer;">X</span></div>
-        <iframe src="https://github.com/aldirpedro" width="100%" height="90%"></iframe>
+    <div id="instagram" class="window">
+        <div class="header">
+            <span>Instagram</span>
+            <span class="close-button" onclick="closeWindow('instagram')">X</span>
+        </div>
+        <div class="content-frame">
+            <a href="https://www.instagram.com/aldir_pedro/" target="_blank" class="link-button">Acessar Instagram</a>
+        </div>
     </div>
-    <div id="instagram" class="window" style="top: 150px; left: 250px;">
-        <div class="header">Instagram <span onclick="closeWindow('instagram')" style="float:right; cursor:pointer;">X</span></div>
-        <iframe src="https://www.instagram.com/aldir_pedro/" width="100%" height="90%"></iframe>
+
+    <div id="youtube" class="window">
+        <div class="header">
+            <span>YouTube</span>
+            <span class="close-button" onclick="closeWindow('youtube')">X</span>
+        </div>
+        <div class="content-frame">
+            <a href="https://www.youtube.com/feed/trending?bp=6gQJRkVleHBsb3Jl" target="_blank" class="link-button">Acessar YouTube</a>
+        </div>
     </div>
-    <div id="spotify" class="window" style="top: 200px; left: 300px;">
-        <div class="header">Spotify Trailer <span onclick="closeWindow('spotify')" style="float:right; cursor:pointer;">X</span></div>
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/VtvfbGRDJbY" frameborder="0" allowfullscreen></iframe>
+
+    <div id="linkedin" class="window">
+        <div class="header">
+            <span>LinkedIn</span>
+            <span class="close-button" onclick="closeWindow('linkedin')">X</span>
+        </div>
+        <div class="content-frame">
+            <a href="https://www.linkedin.com/feed/?trk=seo-authwall-base_sign-in-submit" target="_blank" class="link-button">Acessar LinkedIn</a>
+        </div>
     </div>
 
     <script>
         // Array de fundos
         const backgrounds = [
-            "https://i.gifer.com/Iv64.gif",  // Fundo 1
-            "https://i.gifer.com/J6vi.gif",  // Fundo 2
-            "https://i.gifer.com/7rF7.gif"    // Fundo 3
+            "https://i.gifer.com/Iv64.gif",
+            "https://i.gifer.com/J6vi.gif",
+            "https://i.gifer.com/7rF7.gif"
         ];
 
         let currentBackgroundIndex = 0;

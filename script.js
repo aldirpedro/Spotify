@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function toggleTheme() {
         document.body.classList.toggle("light-theme");
         if (document.body.classList.contains("light-theme")) {
-            document.body.style.transition = "background 0.5s, color 0.5s";
+            document.body.style.transition = " background 0.5s, color 0.5s";
             document.body.style.background = "#f0f0f0"; // Cor de fundo claro
             document.body.style.color = "#333"; // Cor de texto escura
         } else {

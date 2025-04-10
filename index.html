@@ -347,6 +347,38 @@
             color: var(--spotify-white);
             text-decoration: none;
         }
+
+        .agile-reference {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(29, 185, 84, 0.1);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .reference-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--spotify-green);
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: 2px solid var(--spotify-green);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .reference-link:hover {
+            background: var(--spotify-green);
+            color: var(--spotify-white);
+            transform: translateY(-2px);
+        }
+
+        .reference-link span {
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
@@ -415,7 +447,7 @@
         </div>
 
         <div class="section">
-            <h2>Recursos da Plataforma</h2>
+            <h2>Desenvolvimento da Plataforma</h2>
             <div class="feature-grid">
                 <div class="feature-card">
                     <h3>Discover Weekly</h3>
@@ -429,6 +461,30 @@
                     <h3>Podcasts</h3>
                     <p>Conteúdo em áudio diversificado, incluindo notícias, entretenimento e educação. Milhares de podcasts para todos os interesses e gostos.</p>
                 </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Modelo de Desenvolvimento Ágil do Spotify</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Squads</h3>
+                    <p>Equipes autônomas e multifuncionais que trabalham em projetos específicos. Cada squad tem total autonomia para decidir como trabalhar e quais ferramentas usar.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Tribos</h3>
+                    <p>Grupos de squads que trabalham em áreas relacionadas. As tribos promovem a colaboração e o compartilhamento de conhecimento entre as equipes.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Capítulos</h3>
+                    <p>Comunidades de especialistas que se reúnem para compartilhar conhecimentos e melhores práticas em suas áreas específicas.</p>
+                </div>
+            </div>
+            <div class="agile-reference">
+                <p>Para saber mais sobre o modelo de desenvolvimento ágil do Spotify, visite o artigo da Atlassian:</p>
+                <a href="https://www.atlassian.com/br/agile/agile-at-scale/spotify" target="_blank" class="reference-link">
+                    <span>📚</span> Modelo Spotify de Desenvolvimento Ágil
+                </a>
             </div>
         </div>
 
@@ -451,12 +507,15 @@
 
     <div class="music-player">
         <div class="player-controls">
-            <button>⏮</button>
-            <button>▶</button>
-            <button>⏭</button>
+            <button onclick="previousTrack()">⏮</button>
+            <button onclick="togglePlay()" id="playButton">▶</button>
+            <button onclick="nextTrack()">⏭</button>
         </div>
-        <div class="progress-bar">
-            <div class="progress"></div>
+        <div class="progress-bar" onclick="seekTrack(event)">
+            <div class="progress" id="progressBar"></div>
+        </div>
+        <div class="now-playing" id="nowPlaying">
+            <span>Nenhuma música tocando</span>
         </div>
     </div>
 
@@ -477,6 +536,125 @@
             bar.style.animationDelay = `${i * 0.1}s`;
             visualizerBars.appendChild(bar);
         }
+
+        // Lista de músicas de exemplo
+        const tracks = [
+            {
+                title: "Shape of You - Ed Sheeran",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+                title: "Blinding Lights - The Weeknd",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+            },
+            {
+                title: "Dance Monkey - Tones and I",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+            }
+        ];
+
+        let currentTrack = 0;
+        let audio = new Audio();
+        let isPlaying = false;
+        let progressInterval;
+
+        // Função para tocar música aleatória
+        function playRandomTrack() {
+            currentTrack = Math.floor(Math.random() * tracks.length);
+            playTrack();
+        }
+
+        // Função para tocar a música atual
+        function playTrack() {
+            audio.src = tracks[currentTrack].src;
+            audio.play();
+            isPlaying = true;
+            document.getElementById('playButton').textContent = '⏸';
+            document.getElementById('nowPlaying').textContent = `Tocando: ${tracks[currentTrack].title}`;
+            
+            // Atualizar barra de progresso
+            progressInterval = setInterval(updateProgress, 1000);
+        }
+
+        // Função para pausar/retomar
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('playButton').textContent = '▶';
+                clearInterval(progressInterval);
+            } else {
+                if (audio.src) {
+                    audio.play();
+                } else {
+                    playRandomTrack();
+                }
+                isPlaying = true;
+                document.getElementById('playButton').textContent = '⏸';
+                progressInterval = setInterval(updateProgress, 1000);
+            }
+        }
+
+        // Função para próxima música
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % tracks.length;
+            playTrack();
+        }
+
+        // Função para música anterior
+        function previousTrack() {
+            currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+            playTrack();
+        }
+
+        // Função para atualizar barra de progresso
+        function updateProgress() {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        // Função para buscar posição na música
+        function seekTrack(event) {
+            const progressBar = document.querySelector('.progress-bar');
+            const clickPosition = event.offsetX / progressBar.offsetWidth;
+            audio.currentTime = clickPosition * audio.duration;
+        }
+
+        // Evento quando a música termina
+        audio.addEventListener('ended', nextTrack);
+
+        // Estilos adicionais para o player
+        const style = document.createElement('style');
+        style.textContent = `
+            .now-playing {
+                color: var(--spotify-white);
+                font-size: 16px;
+                margin-left: 20px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 300px;
+            }
+            
+            .progress-bar {
+                position: relative;
+                width: 400px;
+                height: 6px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+                cursor: pointer;
+                margin: 0 20px;
+            }
+            
+            .progress {
+                width: 0%;
+                height: 100%;
+                background: var(--spotify-green);
+                border-radius: 3px;
+                transition: width 0.1s linear;
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
